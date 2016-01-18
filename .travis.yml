@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - oraclejdk7
+
+deploy:
+  provider: releases
+  api_key: $GITAPI
+  file: "target/PortableFTPServer.jar"
+  skip_cleanup: true
+  on:
+    tags: true
