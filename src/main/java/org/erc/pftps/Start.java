@@ -4,9 +4,13 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
+import org.erc.pftps.services.FTPServer;
+
 public class Start {
 
 	public static void main(String[] args) {
+		
+		if(args == null || args.length<1){
 	       java.awt.EventQueue.invokeLater ( new Runnable() {
 		        public void run() {
 		    		try{
@@ -21,6 +25,11 @@ public class Start {
 					}
 		        }
 	        });
+		}else{
+			FTPServer server = new FTPServer();
+			server.setUser(args[0], args[1], args[2]);
+			server.start();
+		}
 	}
 
 }

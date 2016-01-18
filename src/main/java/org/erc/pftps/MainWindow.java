@@ -22,5 +22,8 @@ public class MainWindow extends JFrame{
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		
+		
 	}
 }
