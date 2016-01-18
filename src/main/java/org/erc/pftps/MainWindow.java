@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.JFormattedTextField;
 import java.awt.Font;
@@ -34,23 +35,52 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.JPasswordField;
 
 
+/**
+ * The Class MainWindow.
+ */
 public class MainWindow extends JFrame{
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3422060991230203001L;
-	private JTextField txtUser;
-	private JTextField txtPassword;
-	private JTextField txtFolder;
-	private JFormattedTextField txtPort;
-	private JTextArea txtLog;
-	private JButton btStartStop;
 	
+	/** The txt user. */
+	private JTextField txtUser;
+	
+	/** The txt password. */
+	private JPasswordField txtPassword;
+	
+	/** The txt folder. */
+	private JTextField txtFolder;
+	
+	/** The txt port. */
+	private JFormattedTextField txtPort;
+	
+	/** The txt log. */
+	private JTextArea txtLog;
+	
+	/** The btn folder. */
+	private JButton btnFolder;
+	
+	/** The btn start. */
+	private JButton btnStart;
+	
+	/** The message console. */
 	private MessageConsole messageConsole;
 	
+	/** The ftp server. */
 	private FTPServer ftpServer;
+	
+	/** The scroll pane. */
 	private JScrollPane scrollPane;
 	
+	/** The is started. */
+	private boolean isStarted = false; 
+	
+	/** The chooser. */
+	private JFileChooser chooser;
 	/**
 	 * Create the application.
 	 */
@@ -66,6 +96,12 @@ public class MainWindow extends JFrame{
 	    int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 	    setLocation(x, y);
 	    
+		chooser = new JFileChooser(); 
+	    chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Portable FTP Server - Home Folder");
+	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    chooser.setAcceptAllFileFilterUsed(false);
+	    
 	    
 		getContentPane().setLayout(null);
 		
@@ -74,6 +110,7 @@ public class MainWindow extends JFrame{
 		getContentPane().add(lblUser);
 		
 		txtUser = new JTextField();
+		txtUser.setText("user");
 		txtUser.setBounds(178, 43, 86, 20);
 		getContentPane().add(txtUser);
 		txtUser.setColumns(10);
@@ -82,7 +119,8 @@ public class MainWindow extends JFrame{
 		lblPassword.setBounds(274, 46, 46, 14);
 		getContentPane().add(lblPassword);
 		
-		txtPassword = new JTextField();
+		txtPassword = new JPasswordField();
+		txtPassword.setText("user");
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(330, 43, 86, 20);
 		getContentPane().add(txtPassword);
@@ -97,19 +135,51 @@ public class MainWindow extends JFrame{
 		lblFolder.setBounds(10, 15, 46, 14);
 		getContentPane().add(lblFolder);
 		
-		btStartStop = new JButton("...");
-		btStartStop.setBounds(480, 11, 33, 23);
-		getContentPane().add(btStartStop);
+		btnFolder = new JButton("...");
+		btnFolder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 if (chooser.showOpenDialog(btnFolder) == JFileChooser.APPROVE_OPTION) {
+					 txtFolder.setText(chooser.getCurrentDirectory().getAbsolutePath());
+				 }    
+			}
+		});
+		btnFolder.setBounds(480, 11, 33, 23);
+		getContentPane().add(btnFolder);
 		
 		JLabel lblPort = new JLabel("Port");
 		lblPort.setBounds(10, 46, 46, 14);
 		getContentPane().add(lblPort);
 		
-		JButton btnStart = new JButton("Start");
+		btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ftpServer.setUser(txtUser.getText(), txtPassword.getText(), txtFolder.getText());
-				ftpServer.start();
+				if(!isStarted){
+					if(txtUser.getText()!=null && !txtUser.getText().isEmpty() && 
+						txtFolder.getText()!=null && !txtFolder.getText().isEmpty()){
+						
+						ftpServer.setPort(Integer.parseInt(txtPort.getText()));
+						ftpServer.setUser(txtUser.getText(), txtPassword.getPassword(), txtFolder.getText());
+						ftpServer.start();
+						
+						isStarted = true;
+						
+						txtPort.setEnabled(false);
+						txtUser.setEnabled(false);
+						txtPassword.setEnabled(false);
+						btnFolder.setEnabled(false);
+						btnStart.setText("Stop");
+					}else{
+						System.err.println("Invalid port,user or folder");
+					}
+				}else{
+					ftpServer.stop();
+					isStarted = false;
+					txtPort.setEnabled(true);
+					txtUser.setEnabled(true);
+					txtPassword.setEnabled(true);
+					btnFolder.setEnabled(true);
+					btnStart.setText("Start");
+				}
 			}
 		});
 		btnStart.setBounds(426, 42, 89, 23);
@@ -137,13 +207,12 @@ public class MainWindow extends JFrame{
 		txtLog.setEditable(false);
 		
 		messageConsole = new MessageConsole(txtLog);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{getContentPane(), lblFolder, btStartStop, lblPort, txtPort, lblUser, txtUser, lblPassword, txtPassword, btnStart}));
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{getContentPane(), lblFolder, btnFolder, lblPort, txtPort, lblUser, txtUser, lblPassword, txtPassword, btnStart}));
 		messageConsole.setMessageLines(100);
 		messageConsole.redirectErr();
 		messageConsole.redirectOut();
 		
 		ftpServer = new FTPServer();
-		
 		
 	}
 }

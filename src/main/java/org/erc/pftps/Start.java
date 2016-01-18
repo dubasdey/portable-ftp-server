@@ -22,8 +22,16 @@ import javax.swing.UIManager;
 
 import org.erc.pftps.services.FTPServer;
 
+/**
+ * The Class Start.
+ */
 public class Start {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		
 		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "INFO");
@@ -48,7 +56,7 @@ public class Start {
 			if (args.length == 4){
 				FTPServer server = new FTPServer();
 				server.setPort(Integer.parseInt(args[0]));
-				server.setUser(args[1], args[2], args[3]);
+				server.setUser(args[1], args[2].toCharArray(), args[3]);
 				server.start();
 			} else{
 				System.out.println("Invalid arguments");

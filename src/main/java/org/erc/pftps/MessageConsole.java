@@ -14,30 +14,53 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+/**
+ * The Class MessageConsole.
+ */
 public class MessageConsole {
 	
+	/** The text component. */
 	private JTextComponent textComponent;
+	
+	/** The document. */
 	private Document document;
 	
+	/** The limit lines listener. */
 	private DocumentListener limitLinesListener;
 
+	/**
+	 * Instantiates a new message console.
+	 *
+	 * @param textComponent the text component
+	 */
 	public MessageConsole(JTextComponent textComponent){
 		this.textComponent = textComponent;
 		this.document = textComponent.getDocument();
 		textComponent.setEditable(false);
 	}
 
+	/**
+	 * Redirect out.
+	 */
 	public void redirectOut(){
 		ConsoleOutputStream cos = new ConsoleOutputStream(Color.LIGHT_GRAY, null);
 		System.setOut( new PrintStream(cos, true));
 	}
 
+	/**
+	 * Redirect err.
+	 */
 	public void redirectErr(){	
 		ConsoleOutputStream cos = new ConsoleOutputStream(Color.red, null);
 		System.setErr( new PrintStream(cos, true) );
 		
 	}
 
+	/**
+	 * Sets the message lines.
+	 *
+	 * @param lines the new message lines
+	 */
 	public void setMessageLines(int lines) {
 		if (limitLinesListener != null){
 			document.removeDocumentListener( limitLinesListener );
@@ -46,21 +69,53 @@ public class MessageConsole {
 		document.addDocumentListener( limitLinesListener );
 	}
 
+	/**
+	 * The listener interface for receiving limitLinesDocument events.
+	 * The class that is interested in processing a limitLinesDocument
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addLimitLinesDocumentListener<code> method. When
+	 * the limitLinesDocument event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see LimitLinesDocumentEvent
+	 */
 	class LimitLinesDocumentListener implements DocumentListener {
 		
+		/** The maximum lines. */
 		private int maximumLines;
 
+		/**
+		 * Instantiates a new limit lines document listener.
+		 *
+		 * @param maximumLines the maximum lines
+		 */
 		public LimitLinesDocumentListener(int maximumLines) {
 			this.maximumLines = maximumLines;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+		 */
 		public void insertUpdate(final DocumentEvent e) {
 			SwingUtilities.invokeLater( new Runnable() { public void run() { removeLines(e); } });
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+		 */
 		public void removeUpdate(DocumentEvent e) {}
+		
+		/* (non-Javadoc)
+		 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
+		 */
 		public void changedUpdate(DocumentEvent e) {}
 
+		/**
+		 * Removes the lines.
+		 *
+		 * @param e the e
+		 */
 		private void removeLines(DocumentEvent e) {
 			Document document = e.getDocument();
 			Element root = document.getDefaultRootElement();
@@ -76,14 +131,32 @@ public class MessageConsole {
 		}
 	}
 	
+	/**
+	 * The Class ConsoleOutputStream.
+	 */
 	class ConsoleOutputStream extends ByteArrayOutputStream {
 
+		/** The eol. */
 		private final String EOL = System.getProperty("line.separator");
+		
+		/** The attributes. */
 		private SimpleAttributeSet attributes;
+		
+		/** The print stream. */
 		private PrintStream printStream;
+		
+		/** The buffer. */
 		private StringBuffer buffer = new StringBuffer(80);
+		
+		/** The is first line. */
 		private boolean isFirstLine;
 
+		/**
+		 * Instantiates a new console output stream.
+		 *
+		 * @param textColor the text color
+		 * @param printStream the print stream
+		 */
 		public ConsoleOutputStream(Color textColor, PrintStream printStream) {
 			if (textColor != null) {
 				attributes = new SimpleAttributeSet();
@@ -93,6 +166,9 @@ public class MessageConsole {
 			isFirstLine = true;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.io.OutputStream#flush()
+		 */
 		public void flush() {
 			String message = toString();
 			if (message.length() == 0) return;
@@ -100,6 +176,11 @@ public class MessageConsole {
 			reset();
 		}
 
+		/**
+		 * Handle append.
+		 *
+		 * @param message the message
+		 */
 		private void handleAppend(String message){
 			if (document.getLength() == 0){
 				buffer.setLength(0);
@@ -112,6 +193,9 @@ public class MessageConsole {
 			}
 		}
 
+		/**
+		 * Clear buffer.
+		 */
 		private void clearBuffer() {
 			if (isFirstLine && document.getLength() != 0) {
 			    buffer.insert(0, "\n");

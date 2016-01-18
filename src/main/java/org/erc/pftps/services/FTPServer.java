@@ -23,39 +23,76 @@ import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 
+/**
+ * The Class FTPServer.
+ */
 public class FTPServer {
 
+	/** The port. */
 	private int port;
 	
+	/** The user manager. */
 	private InMemoryUserManager userManager;
 	
+	/** The server. */
+	private FtpServer server;
+	
+	/**
+	 * Instantiates a new FTP server.
+	 */
 	public FTPServer(){
 		port = 21;
 		userManager = new InMemoryUserManager();
 	}
 	
+	/**
+	 * Sets the port.
+	 *
+	 * @param port the new port
+	 */
 	public void setPort(int port){
 		this.port = port;
 	}
 	
-	public void setUser(String login,String password,String home){
+	/**
+	 * Sets the user.
+	 *
+	 * @param login the login
+	 * @param password the password
+	 * @param home the home
+	 */
+	public void setUser(String login,char[] password,String home){
 		BaseUser user = new BaseUser();
 	    user.setName(login);
-	    user.setPassword(password);
+	    if(password !=null && password.length>0){
+	    	user.setPassword(new String(password));
+	    }
 	    user.setHomeDirectory(home);
 	    user.setEnabled(true);
 	    userManager.setUser(user);
 	}
 	
+	/**
+	 * Stop.
+	 */
+	public void stop(){
+		if (server!=null && !server.isStopped()){
+			server.stop();
+			server = null;
+		}
+	}
+	
+	/**
+	 * Start.
+	 */
 	public void start(){
-		
+
 		ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
 		configFactory.setAnonymousLoginEnabled(false);
 		configFactory.setMaxLoginFailures(5);
 		configFactory.setMaxThreads(20);
 		configFactory.setMaxLogins(10);
 		configFactory.setMaxAnonymousLogins(10);
-
 
 		ListenerFactory factory = new ListenerFactory();	
 		factory.setPort(port);
@@ -65,7 +102,7 @@ public class FTPServer {
 		serverFactory.setUserManager(userManager);
 		serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
 		
-	    FtpServer server = serverFactory.createServer();
+	    server = serverFactory.createServer();
 	    try{
 	        server.start();
 	    } catch (FtpException ex){
