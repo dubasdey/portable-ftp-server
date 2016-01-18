@@ -99,8 +99,7 @@
 					<debug>false</debug>
 				</configuration>
 			</plugin>
-			
-<!-- 
+<!--			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -120,8 +119,7 @@
 					<execution></execution>
 				</executions>
 			</plugin>
-
-									
+-->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
@@ -138,9 +136,6 @@
 							<SplashScreen-Image>META-INF/startup.gif</SplashScreen-Image>
 						</manifestEntries>
 					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>	
 				</configuration>
 				<executions>
 					<execution>
@@ -149,10 +144,14 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
 					</execution>
 				</executions>
-			</plugin>
--->			
+			</plugin>	
 		</plugins>
 	</build>
 </project>
