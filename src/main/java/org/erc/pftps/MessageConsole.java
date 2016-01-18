@@ -101,9 +101,9 @@ public class MessageConsole {
 		}
 
 		private void handleAppend(String message){
-			if (document.getLength() == 0)
+			if (document.getLength() == 0){
 				buffer.setLength(0);
-
+			}
 			if (EOL.equals(message)){
 				buffer.append(message);
 			} else {

@@ -45,9 +45,17 @@ public class Start {
 		        }
 	        });
 		}else{
-			FTPServer server = new FTPServer();
-			server.setUser(args[0], args[1], args[2]);
-			server.start();
+			if (args.length == 4){
+				FTPServer server = new FTPServer();
+				server.setPort(Integer.parseInt(args[0]));
+				server.setUser(args[1], args[2], args[3]);
+				server.start();
+			} else{
+				System.out.println("Invalid arguments");
+				System.out.println("");
+				System.out.println("Use without arguments for GUI or call with:");
+				System.out.println("<port> <user> <password> <folder>");
+			}
 		}
 	}
 

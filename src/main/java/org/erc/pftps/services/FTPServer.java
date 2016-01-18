@@ -34,6 +34,10 @@ public class FTPServer {
 		userManager = new InMemoryUserManager();
 	}
 	
+	public void setPort(int port){
+		this.port = port;
+	}
+	
 	public void setUser(String login,String password,String home){
 		BaseUser user = new BaseUser();
 	    user.setName(login);

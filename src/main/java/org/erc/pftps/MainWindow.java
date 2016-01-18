@@ -33,6 +33,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 
 public class MainWindow extends JFrame{
@@ -48,6 +49,7 @@ public class MainWindow extends JFrame{
 	private MessageConsole messageConsole;
 	
 	private FTPServer ftpServer;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Create the application.
@@ -119,8 +121,13 @@ public class MainWindow extends JFrame{
 		txtPort.setColumns(5);
 		txtPort.setBounds(66, 43, 46, 20);
 		getContentPane().add(txtPort);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 71, 503, 227);
+		getContentPane().add(scrollPane);
 
 		txtLog = new JTextArea();
+		scrollPane.setViewportView(txtLog);
 		txtLog.setText("Ready.");
 		txtLog.setForeground(Color.LIGHT_GRAY);
 		txtLog.setBackground(Color.BLACK);
@@ -128,8 +135,6 @@ public class MainWindow extends JFrame{
 		txtLog.setColumns(20);
 		txtLog.setRows(20);
 		txtLog.setEditable(false);
-		txtLog.setBounds(10, 71, 503, 227);
-		getContentPane().add(txtLog);
 		
 		messageConsole = new MessageConsole(txtLog);
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{getContentPane(), lblFolder, btStartStop, lblPort, txtPort, lblUser, txtUser, lblPassword, txtPassword, btnStart}));
