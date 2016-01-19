@@ -139,7 +139,7 @@ public class MainWindow extends JFrame{
 		btnFolder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 if (chooser.showOpenDialog(btnFolder) == JFileChooser.APPROVE_OPTION) {
-					 txtFolder.setText(chooser.getCurrentDirectory().getAbsolutePath());
+					 txtFolder.setText(chooser.getSelectedFile().getAbsolutePath());
 				 }    
 			}
 		});
