@@ -4,7 +4,7 @@
 ![GPLv3](http://img.shields.io/badge/license-GPLv3-blue.svg)
 [![Build Status](https://travis-ci.org/dubasdey/portable-ftp-server.svg?branch=master)](https://travis-ci.org/dubasdey/portable-ftp-server)
 [![Dependency Status](https://www.versioneye.com/user/projects/5714cbcbfcd19a0039f1750c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5714cbcbfcd19a0039f1750c)
-
+[![Coverage Status](https://coveralls.io/repos/github/dubasdey/portable-ftp-server/badge.svg?branch=master)](https://coveralls.io/github/dubasdey/portable-ftp-server?branch=master)
 
 Information
 -----------------------------------------------------------------------------------------
