@@ -21,7 +21,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.erc</groupId>
 	<artifactId>org.erc.pftps</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.4</version>
 	<name>PortableFTPServer</name>
 	<packaging>jar</packaging>
 	<url>https://github.com/dubasdey/portable-ftp-server</url>
