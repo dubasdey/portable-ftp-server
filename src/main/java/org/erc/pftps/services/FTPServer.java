@@ -89,11 +89,14 @@ public class FTPServer {
 
 		ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
 		configFactory.setAnonymousLoginEnabled(false);
+		configFactory.setMaxAnonymousLogins(1);
+		
 		configFactory.setMaxLoginFailures(5);
-		configFactory.setMaxThreads(20);
+		configFactory.setLoginFailureDelay(30);
+		
+		configFactory.setMaxThreads(10);
 		configFactory.setMaxLogins(10);
-		configFactory.setMaxAnonymousLogins(10);
-
+		
 		ListenerFactory factory = new ListenerFactory();	
 		factory.setPort(port);
 		
