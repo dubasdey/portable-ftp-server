@@ -85,15 +85,15 @@ public class FTPServer {
 	/**
 	 * Start.
 	 */
-	public void start(){
+	public boolean start(){
 
 		ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
 		configFactory.setAnonymousLoginEnabled(false);
-		configFactory.setMaxAnonymousLogins(1);
+		configFactory.setMaxAnonymousLogins(0);
 		
 		configFactory.setMaxLoginFailures(5);
 		configFactory.setLoginFailureDelay(30);
-		
+
 		configFactory.setMaxThreads(10);
 		configFactory.setMaxLogins(10);
 		
@@ -106,12 +106,14 @@ public class FTPServer {
 		serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
 		
 	    server = serverFactory.createServer();
+	    
 	    try{
 	        server.start();
 	    } catch (FtpException ex){
-	        //TODO
+	    	System.err.println(ex.getMessage());
+	    	return false;
 	    }
-	    
+	    return true;
 		
 	}
 }

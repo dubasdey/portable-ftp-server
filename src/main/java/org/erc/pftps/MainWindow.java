@@ -156,18 +156,18 @@ public class MainWindow extends JFrame{
 				if(!isStarted){
 					if(txtUser.getText()!=null && !txtUser.getText().isEmpty() && 
 						txtFolder.getText()!=null && !txtFolder.getText().isEmpty()){
-						
 						ftpServer.setPort(Integer.parseInt(txtPort.getText()));
 						ftpServer.setUser(txtUser.getText(), txtPassword.getPassword(), txtFolder.getText());
-						ftpServer.start();
-						
-						isStarted = true;
-						
-						txtPort.setEnabled(false);
-						txtUser.setEnabled(false);
-						txtPassword.setEnabled(false);
-						btnFolder.setEnabled(false);
-						btnStart.setText("Stop");
+						if (ftpServer.start()){
+							isStarted = true;
+							txtPort.setEnabled(false);
+							txtUser.setEnabled(false);
+							txtPassword.setEnabled(false);
+							btnFolder.setEnabled(false);
+							btnStart.setText("Stop");
+						}else{
+							System.err.println("Error starting server");	
+						}
 					}else{
 						System.err.println("Invalid port,user or folder");
 					}
@@ -207,10 +207,11 @@ public class MainWindow extends JFrame{
 		txtLog.setEditable(false);
 		
 		messageConsole = new MessageConsole(txtLog);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{getContentPane(), lblFolder, btnFolder, lblPort, txtPort, lblUser, txtUser, lblPassword, txtPassword, btnStart}));
 		messageConsole.setMessageLines(100);
 		messageConsole.redirectErr();
 		messageConsole.redirectOut();
+		
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{getContentPane(), lblFolder, btnFolder, lblPort, txtPort, lblUser, txtUser, lblPassword, txtPassword, btnStart}));
 		
 		ftpServer = new FTPServer();
 		
