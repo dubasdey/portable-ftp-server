@@ -60,20 +60,9 @@
 	<dependencies>
 	
 		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-core</artifactId>
-			<version>2.0.14</version>
-		</dependency>
-		<dependency>
    			<groupId>org.apache.ftpserver</groupId>
     			<artifactId>ftpserver-core</artifactId>
     			<version>1.0.6</version>
-    		<exclusions>
-    			<exclusion>
-    				<groupId>org.slf4j</groupId>
-    				<artifactId>slf4j-api</artifactId>
-    			</exclusion>
-    		</exclusions>
 		</dependency>
 		
 		<dependency>
@@ -81,12 +70,7 @@
 		    <artifactId>slf4j-simple</artifactId>
 		    <version>1.7.21</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>1.7.21</version>
-		</dependency>
-		
+
  		<dependency>
       		<groupId>junit</groupId>
       		<artifactId>junit</artifactId>
@@ -98,13 +82,13 @@
 	<build>
 		<finalName>${project.name}</finalName>
 		<plugins>
-		
+		<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.10</version>
 			</plugin>
-			
+		-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -130,6 +114,7 @@
       		<plugin>
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-checkstyle-plugin</artifactId>
+        		<version>2.17</version>
 			</plugin>
 
 			<plugin>
