@@ -31,7 +31,9 @@ public class Preferences {
 		properties = new Properties();
 		try {
 			Path path = Paths.get(userPath, ".erc.sftp.server");
-			properties.load(Files.newInputStream(path,StandardOpenOption.CREATE));
+			if(path.toFile().exists() ){
+				properties.load(Files.newInputStream(path));	
+			}
 		} catch (IOException e) {
 			/* Ignored */
 		}
@@ -49,7 +51,7 @@ public class Preferences {
 		Path path = Paths.get(userPath, ".erc.sftp.server");
 		OutputStream os;
 		try {
-			os = Files.newOutputStream(path,StandardOpenOption.CREATE);
+			os = Files.newOutputStream(path);
 			properties.store(os,"");
 			os.flush();
 			os.close();			
