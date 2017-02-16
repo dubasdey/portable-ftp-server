@@ -81,6 +81,10 @@ public class MainWindow extends JFrame{
 	
 	/** The chooser. */
 	private JFileChooser chooser;
+	
+	private Preferences preferences = new Preferences();
+	
+	
 	/**
 	 * Create the application.
 	 */
@@ -153,9 +157,21 @@ public class MainWindow extends JFrame{
 		btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// Start
 				if(!isStarted){
+					
+					// Validate fielts
 					if(txtUser.getText()!=null && !txtUser.getText().isEmpty() && 
 						txtFolder.getText()!=null && !txtFolder.getText().isEmpty()){
+						
+						// Store preferences
+						preferences.set("FTP.PORT", txtPort.getText());
+						preferences.set("FTP.USER", txtUser.getText());
+						preferences.set("FTP.PASSWORD", new String(txtPassword.getPassword()));
+						preferences.set("FTP.FOLDER", txtFolder.getText());
+						
+						// Configure and start
 						ftpServer.setPort(Integer.parseInt(txtPort.getText()));
 						ftpServer.setUser(txtUser.getText(), txtPassword.getPassword(), txtFolder.getText());
 						if (ftpServer.start()){
@@ -171,6 +187,8 @@ public class MainWindow extends JFrame{
 					}else{
 						System.err.println("Invalid port,user or folder");
 					}
+					
+				// Stop
 				}else{
 					ftpServer.stop();
 					isStarted = false;
@@ -214,6 +232,14 @@ public class MainWindow extends JFrame{
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{getContentPane(), lblFolder, btnFolder, lblPort, txtPort, lblUser, txtUser, lblPassword, txtPassword, btnStart}));
 		
 		ftpServer = new FTPServer();
+		
+		// load preferences
+		txtPort.setText(preferences.getString("FTP.PORT", "22"));
+		txtUser.setText(preferences.getString("FTP.USER", "user"));
+		txtPassword.setText(preferences.getString("FTP.PASSWORD", "user"));
+		txtFolder.setText(preferences.getString("FTP.FOLDER", ""));
+		
+	
 		
 	}
 }
