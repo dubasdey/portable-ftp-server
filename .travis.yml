@@ -11,5 +11,4 @@ deploy:
     tags: true
 
 after_success:
-  - mvn clean cobertura:cobertura 
-  - mvn org.eluder.coveralls:coveralls-maven-plugin:report    
+  - mvn clean test jacoco:report coveralls:report    
