@@ -1,0 +1,20 @@
+<project name="Portable FTP Server">
+
+	<custom>
+		<fluidoSkin>
+			<topBarEnabled>true</topBarEnabled>
+			<sideBarEnabled>true</sideBarEnabled>
+			<sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+		</fluidoSkin>
+	</custom>		
+    
+	<skin>
+    	<groupId>org.apache.maven.skins</groupId>
+    	<artifactId>maven-fluido-skin</artifactId>
+    	<version>1.5</version>
+	</skin>	
+
+	<body>
+		<menu ref="reports"/>
+	</body>
+</project>
