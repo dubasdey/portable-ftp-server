@@ -82,6 +82,7 @@ public class MainWindow extends JFrame{
 	/** The chooser. */
 	private JFileChooser chooser;
 	
+	/** Preferences file */
 	private Preferences preferences = new Preferences();
 	
 	
@@ -105,7 +106,6 @@ public class MainWindow extends JFrame{
 	    chooser.setDialogTitle("Portable FTP Server - Home Folder");
 	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	    chooser.setAcceptAllFileFilterUsed(false);
-	    
 	    
 		getContentPane().setLayout(null);
 		
@@ -239,7 +239,6 @@ public class MainWindow extends JFrame{
 		txtPassword.setText(preferences.getString("FTP.PASSWORD", "user"));
 		txtFolder.setText(preferences.getString("FTP.FOLDER", ""));
 		
-	
-		
+
 	}
 }

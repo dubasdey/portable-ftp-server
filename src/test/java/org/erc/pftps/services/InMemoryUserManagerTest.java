@@ -1,7 +1,24 @@
+/*
+    This file is part of PortableFtpServer.
+
+    PortableFtpServer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    PortableFtpServer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with PortableFtpServer.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.erc.pftps.services;
 
 import static org.junit.Assert.*;
 
+import org.apache.ftpserver.ftplet.Authentication;
 import org.apache.ftpserver.ftplet.AuthenticationFailedException;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.User;
@@ -116,7 +133,6 @@ public class InMemoryUserManagerTest {
  		assertTrue(imum.isAdmin(USER));
 	}
 	
-	
 	/**
 	 * Authenticate test.
 	 *
@@ -124,8 +140,6 @@ public class InMemoryUserManagerTest {
 	 */
 	@Test
 	public void authenticateTest() throws FtpException{
-
-
 
 		// Authenticate
  		User loggedUser = null;
@@ -137,7 +151,7 @@ public class InMemoryUserManagerTest {
 			assertTrue(false);
 		}
 		
-		// No authenticate
+		// No authenticate - invalid password
 		auth = new UsernamePasswordAuthentication(USER,"empty");
 		try {
 			loggedUser = imum.authenticate(auth);
@@ -145,6 +159,35 @@ public class InMemoryUserManagerTest {
 		} catch (AuthenticationFailedException e) {
 			assertTrue(false);
 		}		
+		
 
+		// No authenticate - invalid user 
+		auth = new UsernamePasswordAuthentication("user2","empty");
+		try {
+			loggedUser = imum.authenticate(auth);
+			assertNull(loggedUser);
+		} catch (AuthenticationFailedException e) {
+			assertTrue(false);
+		}		
+		
+		// No authenticate - invalid Object 
+		try {
+			loggedUser = imum.authenticate(auth);
+			assertNull(loggedUser);
+		} catch (AuthenticationFailedException e) {
+			assertTrue(false);
+		}	
+		
+		
+		// No authenticate - null
+		Authentication t = new Authentication(){
+			
+		};
+		try {
+			loggedUser = imum.authenticate(t);
+			assertNull(loggedUser);
+		} catch (AuthenticationFailedException e) {
+			assertTrue(false);
+		}		
 	}
 }

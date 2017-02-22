@@ -14,33 +14,48 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.FocusTraversalPolicy;
 
+
 /**
  * Cyclic focus traversal policy based on array of components.
- * <p>
- * This class may be freely distributed as part of any application or plugin.
+ * 
+ * <p>This class may be freely distributed as part of any application or plugin.</p>
+ * <p>Original class from scheglov_ke modified</p>
  * 
  * @author scheglov_ke
  */
 public class FocusTraversalOnArray extends FocusTraversalPolicy {
+	
+	/**  Components. */
 	private final Component m_Components[];
-	////////////////////////////////////////////////////////////////////////////
-	//
-	// Constructor
-	//
-	////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Constructor.
+	 *
+	 * @param components components
+	 */
 	public FocusTraversalOnArray(Component components[]) {
 		m_Components = components;
 	}
-	////////////////////////////////////////////////////////////////////////////
-	//
-	// Utilities
-	//
-	////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Index cycle.
+	 *
+	 * @param index the index
+	 * @param delta the delta
+	 * @return the int
+	 */
 	private int indexCycle(int index, int delta) {
 		int size = m_Components.length;
-		int next = (index + delta + size) % size;
-		return next;
+		return (index + delta + size) % size;
 	}
+	
+	/**
+	 * Cycle.
+	 *
+	 * @param currentComponent the current component
+	 * @param delta the delta
+	 * @return the component
+	 */
 	private Component cycle(Component currentComponent, int delta) {
 		int index = -1;
 		loop : for (int i = 0; i < m_Components.length; i++) {
@@ -52,6 +67,7 @@ public class FocusTraversalOnArray extends FocusTraversalPolicy {
 				}
 			}
 		}
+		
 		// try to find enabled component in "delta" direction
 		int initialIndex = index;
 		while (true) {
@@ -69,24 +85,42 @@ public class FocusTraversalOnArray extends FocusTraversalPolicy {
 		// not found
 		return currentComponent;
 	}
-	////////////////////////////////////////////////////////////////////////////
-	//
-	// FocusTraversalPolicy
-	//
-	////////////////////////////////////////////////////////////////////////////
+	
+	
+
+	/* (non-Javadoc)
+	 * @see java.awt.FocusTraversalPolicy#getComponentAfter(java.awt.Container, java.awt.Component)
+	 */
 	public Component getComponentAfter(Container container, Component component) {
 		return cycle(component, 1);
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.FocusTraversalPolicy#getComponentBefore(java.awt.Container, java.awt.Component)
+	 */
 	public Component getComponentBefore(Container container, Component component) {
 		return cycle(component, -1);
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.FocusTraversalPolicy#getFirstComponent(java.awt.Container)
+	 */
 	public Component getFirstComponent(Container container) {
 		return m_Components[0];
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.FocusTraversalPolicy#getLastComponent(java.awt.Container)
+	 */
 	public Component getLastComponent(Container container) {
 		return m_Components[m_Components.length - 1];
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.FocusTraversalPolicy#getDefaultComponent(java.awt.Container)
+	 */
 	public Component getDefaultComponent(Container container) {
 		return getFirstComponent(container);
 	}
+	
 }
