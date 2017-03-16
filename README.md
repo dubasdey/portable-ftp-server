@@ -21,7 +21,7 @@ Execute from graphical interface:
 Execute from command line:
 * run
 ```sh 
-java -jar PortableFtpServer.jar <port> <user> <password> <folder>
+java -jar PortableFTPServer.jar <port> <user> <password> <folder>
 ```
 
 When:
