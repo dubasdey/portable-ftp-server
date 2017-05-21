@@ -62,7 +62,7 @@
 		<dependency>
    			<groupId>org.apache.ftpserver</groupId>
     		<artifactId>ftpserver-core</artifactId>
-    		<version>1.1.0</version>
+    		<version>1.1.1</version>
     		<exclusions>
     			<exclusion>
     				<groupId>org.slf4j</groupId>
@@ -74,7 +74,7 @@
 		<dependency>
 		    <groupId>org.slf4j</groupId>
 		    <artifactId>slf4j-simple</artifactId>
-		    <version>1.7.22</version>
+		    <version>1.7.25</version>
 		</dependency>
 
  		<dependency>
