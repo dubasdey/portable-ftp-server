@@ -59,16 +59,14 @@ public class MessageConsole {
 	 * Redirect out.
 	 */
 	public void redirectOut(){
-		ConsoleOutputStream cos = new ConsoleOutputStream(Color.LIGHT_GRAY, null);
-		System.setOut( new PrintStream(cos, true));
+		System.setOut( new PrintStream(new ConsoleOutputStream(Color.LIGHT_GRAY), true));
 	}
 
 	/**
 	 * Redirect err.
 	 */
 	public void redirectErr(){	
-		ConsoleOutputStream cos = new ConsoleOutputStream(Color.red, null);
-		System.setErr( new PrintStream(cos, true) );
+		System.setErr( new PrintStream(new ConsoleOutputStream(Color.red), true));
 		
 	}
 
@@ -158,9 +156,6 @@ public class MessageConsole {
 		/** The attributes. */
 		private SimpleAttributeSet attributes;
 		
-		/** The print stream. */
-		private PrintStream printStream;
-		
 		/** The buffer. */
 		private StringBuffer buffer = new StringBuffer(80);
 		
@@ -173,12 +168,11 @@ public class MessageConsole {
 		 * @param textColor the text color
 		 * @param printStream the print stream
 		 */
-		public ConsoleOutputStream(Color textColor, PrintStream printStream) {
+		public ConsoleOutputStream(Color textColor) {
 			if (textColor != null) {
 				attributes = new SimpleAttributeSet();
 				StyleConstants.setForeground(attributes, textColor);
 			}
-			this.printStream = printStream;
 			isFirstLine = true;
 		}
 
@@ -223,10 +217,6 @@ public class MessageConsole {
 				document.insertString(offset, line, attributes);
 				textComponent.setCaretPosition( document.getLength() );
 			}catch (BadLocationException ble) {}
-
-			if (printStream != null) {
-				printStream.print(line);
-			}
 			buffer.setLength(0);
 		}
 	}

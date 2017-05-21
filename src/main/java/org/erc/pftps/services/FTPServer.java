@@ -87,6 +87,8 @@ public class FTPServer {
 	 */
 	public boolean start(){
 
+		stop();
+		
 		ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
 		configFactory.setAnonymousLoginEnabled(false);
 		configFactory.setMaxAnonymousLogins(0);
@@ -96,15 +98,16 @@ public class FTPServer {
 
 		configFactory.setMaxThreads(10);
 		configFactory.setMaxLogins(10);
-		
+
 		ListenerFactory factory = new ListenerFactory();	
 		factory.setPort(port);
-		
+		factory.setIdleTimeout(60);
+
 		FtpServerFactory serverFactory = new FtpServerFactory();
 		serverFactory.addListener("default", factory.createListener());
 		serverFactory.setUserManager(userManager);
 		serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
-		
+
 	    server = serverFactory.createServer();
 	    
 	    try{

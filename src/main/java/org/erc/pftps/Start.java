@@ -35,8 +35,7 @@ public class Start {
 	public static void main(String[] args) {
 		
 		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "INFO");
-		
-		
+
 		if(args == null || args.length<1){
 	       java.awt.EventQueue.invokeLater ( new Runnable() {
 		        public void run() {
