@@ -53,7 +53,7 @@ public class InMemoryUserManagerTest {
 	
 
 	/**
-	 * Save ignored T est.
+	 * Save ignored test.
 	 *
 	 * @throws FtpException the ftp exception
 	 */
