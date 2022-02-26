@@ -122,13 +122,6 @@
     			</executions>      			
     		</plugin>
     		
-      		<plugin>
-        		<groupId>org.eluder.coveralls</groupId>
-        		<artifactId>coveralls-maven-plugin</artifactId>
-        		<version>4.3.0</version>
-      		</plugin>
-
-
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.3.0</version>
