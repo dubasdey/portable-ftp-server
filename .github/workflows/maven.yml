@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    environment: main
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +24,9 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      
+    - name: Codacy report
+      run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/site/jacoco/jacoco.xml
+      env:
+         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+     
