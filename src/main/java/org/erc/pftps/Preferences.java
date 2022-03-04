@@ -26,13 +26,10 @@ import java.util.Properties;
 
 
 /**
- * TODO cypher properties
- * 
  * The Class Preferences.
  */
 public class Preferences {
 	
-
 	/** The properties. */
 	private Properties properties;
 	

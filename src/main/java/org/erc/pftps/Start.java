@@ -34,9 +34,12 @@ public class Start {
 	 */
 	public static void main(String[] args) {
 		
-		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "INFO");
+		if (System.getProperty("org.slf4j.simpleLogger.defaultLogLevel") == null) {
+			System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "INFO");
+		}
 
 		if(args == null || args.length<1){
+			// Run with GUI
 	       java.awt.EventQueue.invokeLater ( new Runnable() {
 		        public void run() {
 		    		try{
@@ -52,6 +55,7 @@ public class Start {
 		        }
 	        });
 		}else{
+			// Run command line or hel
 			if (args.length == 4){
 				FTPServer server = new FTPServer();
 				server.setPort(Integer.parseInt(args[0]));
