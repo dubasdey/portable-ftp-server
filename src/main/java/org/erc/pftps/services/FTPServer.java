@@ -16,11 +16,14 @@
  */
 package org.erc.pftps.services;
 
+import java.io.File;
+
 import org.apache.ftpserver.ConnectionConfigFactory;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.ssl.SslConfigurationFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 
 /**
@@ -28,21 +31,20 @@ import org.apache.ftpserver.usermanager.impl.BaseUser;
  */
 public class FTPServer {
 
-	/** The port. */
-	private int port;
-	
 	/** The user manager. */
 	private InMemoryUserManager userManager;
 	
 	/** The server. */
 	private FtpServer server;
 	
+	private ListenerFactory factory;
 	/**
 	 * Instantiates a new FTP server.
 	 */
 	public FTPServer(){
-		port = 21;
 		userManager = new InMemoryUserManager();
+		factory = new ListenerFactory();
+		factory.setIdleTimeout(60);
 	}
 	
 	/**
@@ -50,8 +52,8 @@ public class FTPServer {
 	 *
 	 * @param port the new port
 	 */
-	public void setPort(int port){
-		this.port = port;
+	public void setPort(int port) {
+		factory.setPort(port);
 	}
 	
 	/**
@@ -72,6 +74,24 @@ public class FTPServer {
 	    userManager.setUser(user);
 	}
 	
+	/**
+	 * SSL Configuration
+	 * @param jksPath
+	 * @param password
+	 */
+	public void setSSL(String jksPath,String password) {
+		
+		File file = new File(jksPath);
+		
+		// define basic SSL configuration
+		SslConfigurationFactory ssl = new SslConfigurationFactory();
+		ssl.setKeystoreFile(file);
+		ssl.setKeystorePassword(password);
+		
+		// set the SSL configuration for the listener
+		factory.setSslConfiguration(ssl.createSslConfiguration());
+		factory.setImplicitSsl(true);
+	}
 	/**
 	 * Stop.
 	 */
@@ -98,11 +118,7 @@ public class FTPServer {
 
 		configFactory.setMaxThreads(10);
 		configFactory.setMaxLogins(10);
-
-		ListenerFactory factory = new ListenerFactory();	
-		factory.setPort(port);
-		factory.setIdleTimeout(60);
-
+		
 		FtpServerFactory serverFactory = new FtpServerFactory();
 		serverFactory.addListener("default", factory.createListener());
 		serverFactory.setUserManager(userManager);

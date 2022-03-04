@@ -55,17 +55,23 @@ public class Start {
 		        }
 	        });
 		}else{
-			// Run command line or hel
-			if (args.length == 4){
+			
+			// Run command line or help 
+			if (args.length == 4 || args.length == 6){
 				FTPServer server = new FTPServer();
 				server.setPort(Integer.parseInt(args[0]));
 				server.setUser(args[1], args[2].toCharArray(), args[3]);
+				if(args.length == 6) {
+					server.setSSL(args[4], args[5]);
+				}
 				server.start();
 			} else{
 				System.out.println("Invalid arguments");
 				System.out.println("");
 				System.out.println("Use without arguments for GUI or call with:");
 				System.out.println("<port> <user> <password> <folder>");
+				System.out.println("or");
+				System.out.println("<port> <user> <password> <folder> <jks path> <jks password>");
 			}
 		}
 	}
