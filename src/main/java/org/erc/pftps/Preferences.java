@@ -60,16 +60,6 @@ public class Preferences {
 	 */
 	public <T> void set(String key,T value){
 		properties.setProperty(key, value.toString());
-		Path path = Paths.get(userPath, ".erc.sftp.server");
-		OutputStream os;
-		try {
-			os = Files.newOutputStream(path);
-			properties.store(os,"");
-			os.flush();
-			os.close();			
-		} catch (IOException e) {
-			/* Ignored */
-		}
 	}
 	
 	/**
@@ -82,4 +72,19 @@ public class Preferences {
 	public String getString(String key,String defaultValue){
 		return properties.getProperty(key, defaultValue);
 	}
+
+    public void save() {
+		Path path = Paths.get(userPath, ".erc.sftp.server");
+		OutputStream os;
+		try {
+			os = Files.newOutputStream(path);
+			properties.store(os,"");
+			os.flush();
+			os.close();			
+		} catch (IOException e) {
+                    System.out.println("EXCEPTION "+e.getMessage());
+			/* Ignored */
+		}
+    }
+    
 }

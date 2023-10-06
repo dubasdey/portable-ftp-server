@@ -239,6 +239,19 @@ public class MainWindow extends JFrame{
 		txtPassword.setText(preferences.getString("FTP.PASSWORD", "user"));
 		txtFolder.setText(preferences.getString("FTP.FOLDER", ""));
 		
-
+                this.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        // save preferences
+                        preferences.set("FTP.PORT", txtPort.getText());
+                        preferences.set("FTP.USER", txtUser.getText());
+                        preferences.set("FTP.PASSWORD", String.valueOf(txtPassword.getPassword())); // encrypt it
+                        preferences.set("FTP.FOLDER", txtFolder.getText());
+                        preferences.save();
+                        e.getWindow().dispose();
+                        System.out.println("Preferences saved"); // logger
+                    }
+                });
+                
 	}
 }
