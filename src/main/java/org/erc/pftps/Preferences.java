@@ -34,7 +34,7 @@ public class Preferences {
 	private Properties properties;
 	
 	/** The Constant userPath. */
-	public static final String userPath = System.getProperty("user.home"); 
+	public static final String USER_HOME = System.getProperty("user.home"); 
 	
 	/**
 	 * Instantiates a new preferences.
@@ -42,7 +42,7 @@ public class Preferences {
 	public Preferences() {
 		properties = new Properties();
 		try {
-			Path path = Paths.get(userPath, ".erc.sftp.server");
+			Path path = Paths.get(USER_HOME, ".erc.sftp.server");
 			if(path.toFile().exists() ){
 				properties.load(Files.newInputStream(path));	
 			}
@@ -73,18 +73,17 @@ public class Preferences {
 		return properties.getProperty(key, defaultValue);
 	}
 
-    public void save() {
-		Path path = Paths.get(userPath, ".erc.sftp.server");
-		OutputStream os;
-		try {
-			os = Files.newOutputStream(path);
-			properties.store(os,"");
-			os.flush();
-			os.close();			
-		} catch (IOException e) {
-                    System.out.println("EXCEPTION "+e.getMessage());
-			/* Ignored */
-		}
-    }
+        public void save() {
+                Path path = Paths.get(USER_HOME, ".erc.sftp.server");
+                OutputStream os;
+                try {
+                        os = Files.newOutputStream(path);
+                        properties.store(os,"");
+                        os.flush();
+                        os.close();			
+                } catch (IOException e) {
+                        /* Ignored */
+                }
+        }
     
 }

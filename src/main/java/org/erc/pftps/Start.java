@@ -19,6 +19,7 @@ package org.erc.pftps;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.erc.pftps.services.FTPServer;
 
@@ -40,22 +41,23 @@ public class Start {
 
 		if(args == null || args.length<1){
 			// Run with GUI
-	       java.awt.EventQueue.invokeLater ( new Runnable() {
-		        public void run() {
-		    		try{
-		    			JFrame.setDefaultLookAndFeelDecorated(true);
-		    			JDialog.setDefaultLookAndFeelDecorated(true);
-		    			System.setProperty("sun.awt.noerasebackground", "true");
-		    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-						MainWindow window = new MainWindow();
-						window.setVisible(true);
-					} catch (Exception e) {
-						//log.error(e);
-					}
-		        }
-	        });
-		}else{
-			
+                        java.awt.EventQueue.invokeLater ( new Runnable() {
+                                 @Override
+                                 public void run() {
+                                         try{
+                                                 JFrame.setDefaultLookAndFeelDecorated(true);
+                                                 JDialog.setDefaultLookAndFeelDecorated(true);
+                                                 System.setProperty("sun.awt.noerasebackground", "true");
+                                                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                                                         MainWindow window = new MainWindow();
+                                                         window.setVisible(true);
+                                                 } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+                                                         //log.error(e);
+                                                 }
+                                 }
+                         });
+		}
+                else {
 			// Run command line or help 
 			if (args.length == 4 || args.length == 6){
 				FTPServer server = new FTPServer();
@@ -65,7 +67,8 @@ public class Start {
 					server.setSSL(args[4], args[5]);
 				}
 				server.start();
-			} else{
+			} 
+                        else {
 				System.out.println("Invalid arguments");
 				System.out.println("");
 				System.out.println("Use without arguments for GUI or call with:");

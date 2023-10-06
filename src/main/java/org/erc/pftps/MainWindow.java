@@ -99,20 +99,20 @@ public class MainWindow extends JFrame{
 		
                 java.net.URL imgURL = MainWindow.class.getResource("/ftp.png");
                 if (imgURL != null) {
-                    ImageIcon arrowIcon = new ImageIcon(imgURL);
-                    this.setIconImage(arrowIcon.getImage());
+                        ImageIcon arrowIcon = new ImageIcon(imgURL);
+                        this.setIconImage(arrowIcon.getImage());
                 }
                 
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - getHeight()) / 2);
-	    setLocation(x, y);
+                int x = (int) ((dimension.getWidth() - getWidth()) / 2);
+                int y = (int) ((dimension.getHeight() - getHeight()) / 2);
+                setLocation(x, y);
 	    
 		chooser = new JFileChooser(); 
-	    chooser.setCurrentDirectory(new java.io.File("."));
-	    chooser.setDialogTitle("Portable FTP Server - Home Folder");
-	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-	    chooser.setAcceptAllFileFilterUsed(false);
+                chooser.setCurrentDirectory(new java.io.File("."));
+                chooser.setDialogTitle("Portable FTP Server - Home Folder");
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chooser.setAcceptAllFileFilterUsed(false);
 	    
 		getContentPane().setLayout(null);
 		
@@ -148,6 +148,7 @@ public class MainWindow extends JFrame{
 		
 		btnFolder = new JButton("...");
 		btnFolder.addActionListener(new ActionListener() {
+                        @Override
 			public void actionPerformed(ActionEvent e) {
 				 if (chooser.showOpenDialog(btnFolder) == JFileChooser.APPROVE_OPTION) {
 					 txtFolder.setText(chooser.getSelectedFile().getAbsolutePath());
@@ -163,6 +164,7 @@ public class MainWindow extends JFrame{
 		
 		btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
+                        @Override
 			public void actionPerformed(ActionEvent e) {
 				
 				// Start
@@ -188,15 +190,18 @@ public class MainWindow extends JFrame{
 							txtPassword.setEnabled(false);
 							btnFolder.setEnabled(false);
 							btnStart.setText("Stop");
-						}else{
+						}
+                                                else {
 							System.err.println("Error starting server");	
 						}
-					}else{
+					}
+                                        else {
 						System.err.println("Invalid port,user or folder");
 					}
 					
 				// Stop
-				}else{
+				}
+                                else {
 					ftpServer.stop();
 					isStarted = false;
 					txtPort.setEnabled(true);
@@ -247,17 +252,17 @@ public class MainWindow extends JFrame{
 		txtFolder.setText(preferences.getString("FTP.FOLDER", ""));
 		
                 this.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        // save preferences
-                        preferences.set("FTP.PORT", txtPort.getText());
-                        preferences.set("FTP.USER", txtUser.getText());
-                        preferences.set("FTP.PASSWORD", String.valueOf(txtPassword.getPassword())); // encrypt it
-                        preferences.set("FTP.FOLDER", txtFolder.getText());
-                        preferences.save();
-                        e.getWindow().dispose();
-                        System.out.println("Preferences saved"); // logger
-                    }
+                        @Override
+                        public void windowClosing(java.awt.event.WindowEvent e) {
+                                // save preferences
+                                preferences.set("FTP.PORT", txtPort.getText());
+                                preferences.set("FTP.USER", txtUser.getText());
+                                preferences.set("FTP.PASSWORD", String.valueOf(txtPassword.getPassword())); // encrypt it
+                                preferences.set("FTP.FOLDER", txtFolder.getText());
+                                preferences.save();
+                                e.getWindow().dispose();
+                                System.out.println("Preferences saved"); // logger
+                        }
                 });
                 
 	}

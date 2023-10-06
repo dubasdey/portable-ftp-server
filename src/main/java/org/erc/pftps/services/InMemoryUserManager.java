@@ -46,7 +46,7 @@ public class InMemoryUserManager implements UserManager {
 	public void setUser(BaseUser _user){
 		user = _user;
 		if(user.getAuthorities() == null || user.getAuthorities().isEmpty()){
-			List<Authority> authorities = new ArrayList<Authority>();
+			List<Authority> authorities = new ArrayList<>();
 			authorities.add(new WritePermission());
 			authorities.add(new ConcurrentLoginPermission(10, 10));
 			user.setAuthorities(authorities);
