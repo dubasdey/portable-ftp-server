@@ -34,6 +34,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JPasswordField;
 
@@ -96,6 +97,12 @@ public class MainWindow extends JFrame{
 		setTitle("Portable FTP Server");
 		setBounds(10, 10, 530, 340);
 		
+                java.net.URL imgURL = MainWindow.class.getResource("/ftp.png");
+                if (imgURL != null) {
+                    ImageIcon arrowIcon = new ImageIcon(imgURL);
+                    this.setIconImage(arrowIcon.getImage());
+                }
+                
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - getHeight()) / 2);
