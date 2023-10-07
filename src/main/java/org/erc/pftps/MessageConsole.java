@@ -36,10 +36,10 @@ import javax.swing.text.StyleConstants;
 public class MessageConsole {
 	
 	/** The text component. */
-	private JTextComponent textComponent;
+	private final JTextComponent textComponent;
 	
 	/** The document. */
-	private Document document;
+	private final Document document;
 	
 	/** The limit lines listener. */
 	private DocumentListener limitLinesListener;
@@ -97,7 +97,7 @@ public class MessageConsole {
 	class LimitLinesDocumentListener implements DocumentListener {
 		
 		/** The maximum lines. */
-		private int maximumLines;
+		private final int maximumLines;
 
 		/**
 		 * Instantiates a new limit lines document listener.
@@ -111,18 +111,26 @@ public class MessageConsole {
 		/* (non-Javadoc)
 		 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
 		 */
-		public void insertUpdate(final DocumentEvent e) {
-			SwingUtilities.invokeLater( new Runnable() { public void run() { removeLines(e); } });
-		}
+                @Override
+                public void insertUpdate(final DocumentEvent e) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            removeLines(e);
+                        }
+                    });
+                }
 
 		/* (non-Javadoc)
 		 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
 		 */
+                @Override
 		public void removeUpdate(DocumentEvent e) {}
 		
 		/* (non-Javadoc)
 		 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
 		 */
+                @Override
 		public void changedUpdate(DocumentEvent e) {}
 
 		/**
@@ -157,7 +165,7 @@ public class MessageConsole {
 		private SimpleAttributeSet attributes;
 		
 		/** The buffer. */
-		private StringBuffer buffer = new StringBuffer(80);
+		private final StringBuffer buffer = new StringBuffer(80);
 		
 		/** The is first line. */
 		private boolean isFirstLine;
@@ -179,6 +187,7 @@ public class MessageConsole {
 		/* (non-Javadoc)
 		 * @see java.io.OutputStream#flush()
 		 */
+                @Override
 		public void flush() {
 			String message = toString();
 			if (message.length() == 0) return;
@@ -216,7 +225,7 @@ public class MessageConsole {
 				int offset = document.getLength();
 				document.insertString(offset, line, attributes);
 				textComponent.setCaretPosition( document.getLength() );
-			}catch (BadLocationException ble) {}
+			} catch (BadLocationException ble) {}
 			buffer.setLength(0);
 		}
 	}

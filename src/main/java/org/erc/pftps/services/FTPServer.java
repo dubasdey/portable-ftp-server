@@ -104,25 +104,26 @@ public class FTPServer {
 	
 	/**
 	 * Start.
+         * @return true if ok
 	 */
 	public boolean start(){
 
-		stop();
-		
-		ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
-		configFactory.setAnonymousLoginEnabled(false);
-		configFactory.setMaxAnonymousLogins(0);
-		
-		configFactory.setMaxLoginFailures(5);
-		configFactory.setLoginFailureDelay(30);
+            stop();
 
-		configFactory.setMaxThreads(10);
-		configFactory.setMaxLogins(10);
-		
-		FtpServerFactory serverFactory = new FtpServerFactory();
-		serverFactory.addListener("default", factory.createListener());
-		serverFactory.setUserManager(userManager);
-		serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
+            ConnectionConfigFactory configFactory = new ConnectionConfigFactory();
+            configFactory.setAnonymousLoginEnabled(false);
+            configFactory.setMaxAnonymousLogins(0);
+
+            configFactory.setMaxLoginFailures(5);
+            configFactory.setLoginFailureDelay(30);
+
+            configFactory.setMaxThreads(10);
+            configFactory.setMaxLogins(10);
+
+            FtpServerFactory serverFactory = new FtpServerFactory();
+            serverFactory.addListener("default", factory.createListener());
+            serverFactory.setUserManager(userManager);
+            serverFactory.setConnectionConfig(configFactory.createConnectionConfig());
 
 	    server = serverFactory.createServer();
 	    
